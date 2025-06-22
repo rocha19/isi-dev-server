@@ -25,6 +25,7 @@ lazy_static = "1.4"
 tower-http = { version = "0.5", features = ["trace", "cors"] }
 thiserror = "1.0"
 deadpool = { version = "0.12.2", features = ["serde"] }
+cargo-husky = { version = "1.5.0", features = ["precommit-hook"] }
 
 [build-dependencies]
 dotenv = "0.15"
