@@ -1,9 +1,14 @@
-FROM rust:1.70 as builder
-WORKDIR /usr/src/app
+# Build stage
+FROM rust:1.75-buster as builder
+WORKDIR /app
 COPY . .
-RUN cargo install --path .
+RUN cargo build --release
 
-FROM debian:bullseye-slim
-RUN apt-get update && apt-get install -y libpq5 && rm -rf /var/lib/apt/lists/*
-COPY --from=builder /usr/local/cargo/bin/rust_product_service /usr/local/bin/rust_product_service
-CMD ["rust_product_service"]
+# Runtime stage
+FROM debian:buster-slim
+WORKDIR /usr/local/bin
+COPY --from=builder /app/target/release/yorehub .
+EXPOSE 8080
+ENTRYPOINT ["./yorehub"]
+
+o binario não está sendo encontrado
