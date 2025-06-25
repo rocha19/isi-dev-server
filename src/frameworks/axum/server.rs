@@ -320,27 +320,30 @@ pub async fn run(port: u16) -> Result<(), Box<dyn std::error::Error>> {
     };
 
     let api_routes = Router::new()
-        .route("/products", post(create_product_route))
-        .route("/products", get(get_all_products_route))
-        .route("/products/:id", get(get_product_route))
-        .route("/products/:id", patch(update_product_route))
-        .route("/products/:id", delete(delete_product_route))
-        .route("/products/:id/restore", post(restore_product_route))
+        .route("/api/v1/products", post(create_product_route))
+        .route("/api/v1/products", get(get_all_products_route))
+        .route("/api/v1/products/:id", get(get_product_route))
+        .route("/api/v1/products/:id", patch(update_product_route))
+        .route("/api/v1/products/:id", delete(delete_product_route))
+        .route("/api/v1/products/:id/restore", post(restore_product_route))
         .route(
-            "/products/:id/discount/percent",
+            "/api/v1/products/:id/discount/percent",
             post(apply_percent_discount_route),
         )
         .route(
-            "/products/:id/discount/coupon",
+            "/api/v1/products/:id/discount/coupon",
             post(apply_coupon_discount_route),
         )
-        .route("/products/:id/discount", delete(remove_discount_route))
-        .route("/coupons", post(create_coupon_route))
-        .route("/coupons", get(list_coupons_route))
-        .route("/coupons/:code", get(get_coupon_route))
-        .route("/coupons/:code", patch(update_coupon_route))
-        .route("/coupons/:code", delete(delete_coupon_route))
-        .route("/health", get(health_check));
+        .route(
+            "/api/v1/products/:id/discount",
+            delete(remove_discount_route),
+        )
+        .route("/api/v1/coupons", post(create_coupon_route))
+        .route("/api/v1/coupons", get(list_coupons_route))
+        .route("/api/v1/coupons/:code", get(get_coupon_route))
+        .route("/api/v1/coupons/:code", patch(update_coupon_route))
+        .route("/api/v1/coupons/:code", delete(delete_coupon_route))
+        .route("/api/v1/health", get(health_check));
 
     let app = Router::new().merge(api_routes).layer(cors);
 
