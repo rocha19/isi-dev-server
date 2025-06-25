@@ -1,35 +1,20 @@
-mod db;
-mod error;
-mod handlers;
-mod models;
-mod routes;
-mod utils;
+mod application;
+mod domain;
+mod frameworks;
+mod interfaces;
 
-use axum::http::Method;
-use dotenv::dotenv;
-use tower_http::cors::{Any, CorsLayer};
+use crate::frameworks::axum::server::run;
 
 #[tokio::main]
 async fn main() {
-    dotenv().ok();
-    tracing_subscriber::fmt::init();
+    dotenv::dotenv().ok();
+    let port: u16 = dotenv::var("PORT")
+        .unwrap()
+        .parse()
+        .expect("PORT must be a number");
 
-    let pool = db::create_pool()
-        .await
-        .expect("Failed to create database pool");
-    db::init_db(&pool)
-        .await
-        .expect("Failed to initialize database");
-
-    let cors = CorsLayer::new()
-        .allow_methods([Method::GET, Method::POST, Method::PATCH, Method::DELETE])
-        .allow_origin(Any)
-        .allow_headers(Any);
-
-    let app = routes::create_router(pool).layer(cors);
-
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
-    axum::serve(listener, app.into_make_service())
-        .await
-        .unwrap();
+    if let Err(e) = run(port).await {
+        eprintln!("Error: {}", e);
+        std::process::exit(1);
+    }
 }
