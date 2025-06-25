@@ -126,10 +126,10 @@ impl ProductRepository for PostgresProductRepository {
 
         let count_query = format!("SELECT COUNT(*) FROM products p WHERE {}", condition_str);
 
-        let total_row: i32 = sqlx::query_scalar(&count_query)
+        let total_row: i64 = sqlx::query_scalar(&count_query)
             .bind(&search_pattern)
-            .bind(min_price as i32)
-            .bind(max_price as i32)
+            .bind(min_price as i64)
+            .bind(max_price as i64)
             .fetch_one(&*self.pool)
             .await
             .map_err(|e| e.to_string())?;
