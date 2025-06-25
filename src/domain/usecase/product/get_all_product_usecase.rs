@@ -35,7 +35,11 @@ impl GetAllProductsUseCase {
                 max_price,
                 has_discount,
             )
-            .await?;
+            .await
+            .map_err(|e| {
+                log::error!("Error: {}", e);
+                e.to_string()
+            })?;
         log::info!("End request");
         Ok(works)
     }
