@@ -10,5 +10,3 @@ WORKDIR /usr/local/bin
 COPY --from=builder /app/target/release/yorehub .
 EXPOSE 8080
 ENTRYPOINT ["./yorehub"]
-
-o binario não está sendo encontrado
