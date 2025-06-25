@@ -1,3 +1,3 @@
-pub mod coupon;
-pub mod discount;
-pub mod product;
+pub mod coupon_entity;
+pub mod discount_entity;
+pub mod product_entity;
