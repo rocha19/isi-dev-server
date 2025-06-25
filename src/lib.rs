@@ -1,6 +1,4 @@
-pub mod db;
-pub mod error;
-pub mod handlers;
-pub mod models;
-pub mod routes;
-pub mod utils;
+pub mod application;
+pub mod domain;
+pub mod frameworks;
+pub mod interfaces;
