@@ -19,7 +19,7 @@ pub async fn start_test_server() -> u16 {
     drop(listener);
 
     tokio::spawn(async move {
-        if let Err(e) = marcelo_rocha_desafio_fullstack::frameworks::axum::server::run(port).await {
+        if let Err(e) = isi_dev::frameworks::axum::server::run(port).await {
             eprintln!("Erro ao iniciar o servidor: {}", e);
         }
     });
