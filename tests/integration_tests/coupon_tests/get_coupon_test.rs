@@ -21,7 +21,7 @@ async fn test_05_get_coupon_by_code_success() {
 
     let code = format!("PROMO-{}", Uuid::new_v4());
 
-    let create_url = format!("http://localhost:{}/coupons", port);
+    let create_url = format!("http://localhost:{}/api/v1/coupons", port);
     let coupon_data = json!({
         "code": code,
         "type": "percent",
@@ -41,7 +41,7 @@ async fn test_05_get_coupon_by_code_success() {
 
     assert_eq!(create_response.status(), StatusCode::CREATED);
 
-    let get_url = format!("http://localhost:{}/coupons/{}", port, code);
+    let get_url = format!("http://localhost:{}/api/v1/coupons/{}", port, code);
     let response = client
         .get(&get_url)
         .send()
@@ -80,7 +80,7 @@ async fn test_06_get_coupon_by_code_not_found() {
 
     let code = format!("INVALID-{}", Uuid::new_v4());
 
-    let get_url = format!("http://localhost:{}/coupons/{}", port, code);
+    let get_url = format!("http://localhost:{}/api/v1/coupons/{}", port, code);
     let response = client
         .get(&get_url)
         .send()

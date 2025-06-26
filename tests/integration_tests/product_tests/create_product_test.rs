@@ -18,7 +18,7 @@ async fn test_01_create_product_success() {
         .expect("PORT must be a number");
 
     let client = Client::new();
-    let url = format!("http://localhost:{}/products", port);
+    let url = format!("http://localhost:{}/api/v1/products", port);
     let name = format!("Café Premium {}", uuid::Uuid::new_v4());
 
     let product_data = json!({
@@ -57,7 +57,7 @@ async fn test_02_create_product_missing_fields() {
         .expect("PORT must be a number");
 
     let client = Client::new();
-    let url = format!("http://localhost:{}/products", port);
+    let url = format!("http://localhost:{}/api/v1/products", port);
 
     let invalid_data = json!({});
     let response = client
@@ -108,7 +108,7 @@ async fn test_03_create_product_invalid_types() {
         .expect("PORT must be a number");
 
     let client = Client::new();
-    let url = format!("http://localhost:{}/products", port);
+    let url = format!("http://localhost:{}/api/v1/products", port);
 
     let invalid_data = json!({
         "name": "Café Especial",
@@ -169,7 +169,7 @@ async fn test_04_create_product_conflict() {
         .expect("PORT must be a number");
 
     let client = Client::new();
-    let url = format!("http://localhost:{}/products", port);
+    let url = format!("http://localhost:{}/api/v1/products", port);
     let name = format!("Café Premium {}", uuid::Uuid::new_v4());
 
     let product_data = json!({

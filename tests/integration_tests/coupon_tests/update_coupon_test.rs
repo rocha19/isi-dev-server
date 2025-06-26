@@ -13,7 +13,7 @@ async fn test_05_update_coupon_success() {
     dotenv::dotenv().ok();
     let port: u16 = dotenv::var("PORT").unwrap().parse().unwrap();
     let client = Client::new();
-    let create_url = format!("http://localhost:{}/coupons", port);
+    let create_url = format!("http://localhost:{}/api/v1/coupons", port);
 
     let code = format!("UPDATE-{}", uuid::Uuid::new_v4());
     let create_data = json!({
@@ -34,7 +34,7 @@ async fn test_05_update_coupon_success() {
         .unwrap();
     assert_eq!(create_response.status(), StatusCode::CREATED);
 
-    let update_url = format!("http://localhost:{}/coupons/{}", port, code);
+    let update_url = format!("http://localhost:{}/api/v1/coupons/{}", port, code);
     let update_data = json!({
         "value": 2000,
         "one_shot": false,
@@ -61,7 +61,7 @@ async fn test_06_update_coupon_not_found() {
     let client = Client::new();
 
     let invalid_code = "INVALID_CODE_123";
-    let url = format!("http://localhost:{}/coupons/{}", port, invalid_code);
+    let url = format!("http://localhost:{}/api/v1/coupons/{}", port, invalid_code);
     let update_data = json!({"value": 5000});
 
     let response = client.patch(&url).json(&update_data).send().await.unwrap();
@@ -79,7 +79,7 @@ async fn test_07_update_coupon_invalid_data() {
     dotenv::dotenv().ok();
     let port: u16 = dotenv::var("PORT").unwrap().parse().unwrap();
     let client = Client::new();
-    let create_url = format!("http://localhost:{}/coupons", port);
+    let create_url = format!("http://localhost:{}/api/v1/coupons", port);
 
     let code = format!("INVALID-{}", uuid::Uuid::new_v4());
     let create_data = json!({
@@ -95,7 +95,7 @@ async fn test_07_update_coupon_invalid_data() {
         .await
         .unwrap();
 
-    let update_url = format!("http://localhost:{}/coupons/{}", port, code);
+    let update_url = format!("http://localhost:{}/api/v1/coupons/{}", port, code);
     let invalid_data = json!({
         "value": "dez",
         "max_uses": -5,

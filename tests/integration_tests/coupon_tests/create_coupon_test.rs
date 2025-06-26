@@ -13,7 +13,7 @@ async fn test_01_create_coupon_success() {
     dotenv::dotenv().ok();
     let port: u16 = dotenv::var("PORT").unwrap().parse().unwrap();
     let client = Client::new();
-    let url = format!("http://localhost:{}/coupons", port);
+    let url = format!("http://localhost:{}/api/v1/coupons", port);
 
     let code = format!("PROMO-{}", uuid::Uuid::new_v4());
 
@@ -48,7 +48,7 @@ async fn test_02_create_coupon_missing_fields() {
     dotenv::dotenv().ok();
     let port: u16 = dotenv::var("PORT").unwrap().parse().unwrap();
     let client = Client::new();
-    let url = format!("http://localhost:{}/coupons", port);
+    let url = format!("http://localhost:{}/api/v1/coupons", port);
 
     let invalid_data = json!({});
     let response = client.post(&url).json(&invalid_data).send().await.unwrap();
@@ -71,7 +71,7 @@ async fn test_03_create_coupon_invalid_types() {
     dotenv::dotenv().ok();
     let port: u16 = dotenv::var("PORT").unwrap().parse().unwrap();
     let client = Client::new();
-    let url = format!("http://localhost:{}/coupons", port);
+    let url = format!("http://localhost:{}/api/v1/coupons", port);
 
     let invalid_data = json!({
         "code": "PROMO10",
@@ -98,7 +98,7 @@ async fn test_04_create_coupon_conflict() {
     dotenv::dotenv().ok();
     let port: u16 = dotenv::var("PORT").unwrap().parse().unwrap();
     let client = Client::new();
-    let url = format!("http://localhost:{}/coupons", port);
+    let url = format!("http://localhost:{}/api/v1/coupons", port);
 
     let code = format!("PROMO20-{}", uuid::Uuid::new_v4());
 

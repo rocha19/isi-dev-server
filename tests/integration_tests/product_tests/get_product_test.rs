@@ -19,7 +19,7 @@ async fn test_05_get_product_by_id_success() {
     let client = Client::new();
     let name = format!("Café Premium {}", uuid::Uuid::new_v4());
 
-    let create_url = format!("http://localhost:{}/products", port);
+    let create_url = format!("http://localhost:{}/api/v1/products", port);
     let product_data = json!({
         "name": name.clone(),
         "description": "Notas de chocolate",
@@ -43,7 +43,7 @@ async fn test_05_get_product_by_id_success() {
 
     let product_id = created_product["id"].as_str().expect("Product ID missing");
 
-    let get_url = format!("http://localhost:{}/products/{}", port, product_id);
+    let get_url = format!("http://localhost:{}/api/v1/products/{}", port, product_id);
     let response = client
         .get(&get_url)
         .send()

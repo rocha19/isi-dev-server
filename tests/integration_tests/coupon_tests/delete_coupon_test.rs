@@ -19,7 +19,7 @@ async fn test_10_delete_coupon_success() {
     let client = Client::new();
 
     let code = format!("del-{}", Uuid::new_v4());
-    let create_url = format!("http://localhost:{}/coupons", port);
+    let create_url = format!("http://localhost:{}/api/v1/coupons", port);
     let coupon_data = json!({
         "code": code,
         "type": "fixed",
@@ -37,7 +37,7 @@ async fn test_10_delete_coupon_success() {
         .await
         .expect("Failed to create coupon");
 
-    let delete_url = format!("http://localhost:{}/coupons/{}", port, code);
+    let delete_url = format!("http://localhost:{}/api/v1/coupons/{}", port, code);
     let delete_response = client
         .delete(&delete_url)
         .send()
@@ -46,7 +46,7 @@ async fn test_10_delete_coupon_success() {
 
     assert_eq!(delete_response.status(), StatusCode::NO_CONTENT);
 
-    let get_url = format!("http://localhost:{}/coupons/{}", port, code);
+    let get_url = format!("http://localhost:{}/api/v1/coupons/{}", port, code);
     let get_response = client
         .get(&get_url)
         .send()
@@ -68,7 +68,7 @@ async fn test_11_delete_coupon_not_found() {
     let client = Client::new();
 
     let invalid_code = format!("INVALID-{}", Uuid::new_v4());
-    let delete_url = format!("http://localhost:{}/coupons/{}", port, invalid_code);
+    let delete_url = format!("http://localhost:{}/api/v1/coupons/{}", port, invalid_code);
 
     let response = client
         .delete(&delete_url)

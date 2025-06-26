@@ -17,7 +17,7 @@ async fn test_00_health_check_success() {
         .expect("PORT must be a number");
 
     let client = Client::new();
-    let url = format!("http://localhost:{}/health", port);
+    let url = format!("http://localhost:{}/api/v1/health", port);
     let response = client
         .get(&url)
         .send()

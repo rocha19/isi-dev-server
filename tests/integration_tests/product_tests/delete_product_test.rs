@@ -18,7 +18,7 @@ async fn test_08_delete_product_success() {
         .expect("PORT must be a number");
     let client = Client::new();
 
-    let create_url = format!("http://localhost:{}/products", port);
+    let create_url = format!("http://localhost:{}/api/v1/products", port);
     let name = format!("Café Premium {}", uuid::Uuid::new_v4());
 
     let product_data = json!({
@@ -41,7 +41,7 @@ async fn test_08_delete_product_success() {
         .expect("Failed to parse created product");
     let product_id = created_product["id"].as_str().expect("Product ID missing");
 
-    let delete_url = format!("http://localhost:{}/products/{}", port, product_id);
+    let delete_url = format!("http://localhost:{}/api/v1/products/{}", port, product_id);
     let response = client
         .delete(&delete_url)
         .send()
@@ -50,7 +50,7 @@ async fn test_08_delete_product_success() {
 
     assert_eq!(response.status(), StatusCode::NO_CONTENT);
 
-    let get_url = format!("http://localhost:{}/products/{}", port, product_id);
+    let get_url = format!("http://localhost:{}/api/v1/products/{}", port, product_id);
     let get_response = client
         .get(&get_url)
         .send()
@@ -76,7 +76,7 @@ async fn test_09_delete_product_not_found() {
     let client = Client::new();
 
     let invalid_id = uuid::Uuid::new_v4();
-    let url = format!("http://localhost:{}/products/{}", port, invalid_id);
+    let url = format!("http://localhost:{}/api/v1/products/{}", port, invalid_id);
 
     let response = client
         .delete(&url)

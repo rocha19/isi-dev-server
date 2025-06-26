@@ -1,8 +1,8 @@
 use pretty_assertions::assert_eq;
 use reqwest::{Client, StatusCode};
 use serde_json::json;
-use tokio;
 use serial_test::serial;
+use tokio;
 
 use crate::utils::start_server::init_tracing;
 
@@ -18,7 +18,7 @@ async fn test_06_update_product_success() {
         .expect("PORT must be a number");
     let client = Client::new();
 
-    let create_url = format!("http://localhost:{}/products", port);
+    let create_url = format!("http://localhost:{}/api/v1/products", port);
 
     let product_data = json!({
         "name": format!("Café Premium {}", uuid::Uuid::new_v4()),
@@ -40,7 +40,7 @@ async fn test_06_update_product_success() {
         .expect("Failed to parse created product");
 
     let product_id = created_product["id"].as_str().expect("Product ID missing");
-    let update_url = format!("http://localhost:{}/products/{}", port, product_id);
+    let update_url = format!("http://localhost:{}/api/v1/products/{}", port, product_id);
     let update_data = json!({
         "name": format!("Café Gourmet {}", uuid::Uuid::new_v4()),
         "stock": 50
@@ -69,7 +69,7 @@ async fn test_07_update_product_not_found() {
     let client = Client::new();
 
     let invalid_id = "123e4567-e89b-12d3-a456-426614174000";
-    let url = format!("http://localhost:{}/products/{}", port, invalid_id);
+    let url = format!("http://localhost:{}/api/v1/products/{}", port, invalid_id);
     let update_data = json!({
         "name": "Produto Inexistente"
     });
