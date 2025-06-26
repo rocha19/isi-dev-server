@@ -1,20 +1,20 @@
 version: "3.8"
 services:
-  postgres:
-    image: postgres:15-alpine
+  pgdb:
+    image: bitnami/postgresql:latest
+    container_name: postgres
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      - POSTGRESQL_USERNAME=${DB_USERNAME}
+      - POSTGRESQL_PASSWORD=${DB_PASSWORD}
+      - POSTGRESQL_POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRESQL_PORT_NUMBER=5432
+      - POSTGRESQL_DATABASE=${DB_NAME}
+    expose:
+      - "5432"
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - pgdb_data:/bitnami/postgresql
 
   app:
     build:
@@ -34,6 +34,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-
 volumes:
-  pgdata:
+  pgdb_data:
+    driver: local
